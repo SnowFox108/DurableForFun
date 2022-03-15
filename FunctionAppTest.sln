@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfGenerator", "PdfGenerato
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocGenDispatcher", "DocGenDispatcher\DocGenDispatcher.csproj", "{C636ABFB-C299-4E7A-81BD-60B6A2B77BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenicsDispatcher", "FenicsDispatcher\FenicsDispatcher.csproj", "{88B97F3E-F8F5-4195-B9F0-725B2C92329F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FenicsDispatcher", "FenicsDispatcher\FenicsDispatcher.csproj", "{88B97F3E-F8F5-4195-B9F0-725B2C92329F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportFiles", "SupportFiles", "{2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}"
+	ProjectSection(SolutionItems) = preProject
+		SupportFiles\Workflow.png = SupportFiles\Workflow.png
+		SupportFiles\Workflow.pptx = SupportFiles\Workflow.pptx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
