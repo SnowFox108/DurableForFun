@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FenicsDispatcher": {
+      "commandName": "Project",
+      "commandLineArgs": "start --port 7076"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PdfGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "start --port 7072"
+    }
+  }
+}
