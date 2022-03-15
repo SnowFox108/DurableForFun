@@ -1,0 +1,2 @@
+# DurableForFun
+Durable Function Sample
