@@ -25,7 +25,10 @@ namespace FenicsDispatcher
 
             var tradeId = int.Parse(req.Query["TradeId"]);
 
-            var condition = TableQuery.GenerateFilterConditionForInt("TradeId", QueryComparisons.Equal, tradeId);
+            var condition1 = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
+            var condition2 = TableQuery.GenerateFilterConditionForInt("TradeId", QueryComparisons.Equal, tradeId);
+
+            var condition = TableQuery.CombineFilters(condition1, TableOperators.And, condition2);
 
             var query = new TableQuery<FenicsTaskEntity>().Where(condition);
 
