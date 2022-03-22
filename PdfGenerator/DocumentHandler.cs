@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Text.Json;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -19,13 +18,6 @@ namespace PdfGenerator
             var command = JsonSerializer.Deserialize<PdfCommand>(pdfCommand);
 
             log.LogInformation($"New task has been put in: Task {command.TradeId}");
-
-            //DataContext.Instance.PdfTaskEntities.Add(new PdfTaskEntity
-            //{
-            //    TradeId = command.TradeId,
-            //    IsProcessed = false,
-            //    OrchestrationId = command.OrchestrationId
-            //});
 
             var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
             var client = account.CreateCloudTableClient();

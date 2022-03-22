@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using PdfGenerator.Infrastructure;
 
 namespace PdfGenerator
 {
@@ -21,6 +22,25 @@ namespace PdfGenerator
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
+            var result = await TaskProcessor(log);
+            return result;
+        }
+
+        [FunctionName("DocumentBuilder")]
+        [return: Queue("PdfTaskCompleteQueue")]
+        public async Task<string> Builder(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+
+            ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            var result = await TaskProcessor(log);
+            return result;
+        }
+
+        private async Task<string> TaskProcessor(ILogger log)
+        {
             var condition = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
 
             var query = new TableQuery<PdfTaskEntity>().Where(condition);
@@ -56,10 +76,8 @@ namespace PdfGenerator
                 TableOperation updateOperation = TableOperation.Replace(task);
                 await table.ExecuteAsync(updateOperation);
 
-                //return message;
+                return message;
             }
-
-            return null;
         }
     }
 }
