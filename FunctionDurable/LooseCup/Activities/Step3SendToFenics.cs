@@ -13,7 +13,7 @@ namespace FunctionDurable.LooseCup.Activities
         [return: Queue("FenicsTaskQueue")]
         public static async Task<string> SendToFenics([ActivityTrigger] FenicsCommand command, ILogger log)
         {
-            log.LogInformation($"Send Trade {command.TradeId} to Fenics.");
+            log.LogWarning($"Send Trade {command.TradeId} to Fenics.");
 
             var message = JsonSerializer.Serialize(command);
 
@@ -30,7 +30,7 @@ namespace FunctionDurable.LooseCup.Activities
         {
             var result = JsonSerializer.Deserialize<FenicsCommand>(fenicsCommand);
 
-            log.LogInformation($"Mission Fenics: {result.TradeId} has completed.");
+            log.LogWarning($"Mission Fenics: {result.TradeId} has completed.");
 
             await client.RaiseEventAsync(result.OrchestrationId, "FenicsTaskComplete", result.FenicsId);
         }

@@ -18,7 +18,7 @@ namespace FunctionDurable.LooseCup.Workflows
         {
             var tradeProcess = context.GetInput<TradeProcess>();
 
-            log.LogInformation($"Starting the Step2GeneratePdf Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
+            log.LogWarning($"Starting the Step2GeneratePdf Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
             var pdfCcommand = new PdfCommand()
             {
                 TradeId = tradeProcess.TradeId,
@@ -34,12 +34,12 @@ namespace FunctionDurable.LooseCup.Workflows
             }
             catch (TimeoutException)
             {
-                log.LogWarning($"TradeId: {tradeProcess.TradeId}, Timed out waiting for Pdf Generator.");
+                log.LogError($"TradeId: {tradeProcess.TradeId}, Timed out waiting for Pdf Generator.");
             }
 
             if (!string.IsNullOrEmpty(tradeProcess.PdfPath))
             {
-                log.LogInformation($"Starting the Step2SendToDocGen Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
+                log.LogWarning($"Starting the Step2SendToDocGen Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
                 var docGenCommand = new DocGenCommand()
                 {
                     TradeId = tradeProcess.TradeId,

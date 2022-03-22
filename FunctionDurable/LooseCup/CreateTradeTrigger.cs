@@ -24,7 +24,7 @@ namespace FunctionDurable.LooseCup
             }
 
             string instanceId = await starter.StartNewAsync(nameof(CreateTradeWorkflow.CreateTradeOrchestrator), null, tradeName);
-            log.LogInformation($"Started Trade orchestration with ID: {instanceId}.");
+            log.LogWarning($"Started Trade orchestration with ID: {instanceId}.");
 
             return starter.CreateCheckStatusResponse(req, instanceId);
         }

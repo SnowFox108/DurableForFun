@@ -14,7 +14,7 @@ namespace FunctionDurable.LooseCup.Activities
         [return: Queue("PdfTaskQueue")]
         public static async Task<string> GenerateDocument([ActivityTrigger] PdfCommand command, ILogger log)
         {
-            log.LogInformation($"Generating document for Trade {command.TradeId}.");
+            log.LogWarning($"Sending request to Generating document for Trade {command.TradeId}.");
 
             var message = JsonSerializer.Serialize(command);
            
@@ -31,7 +31,7 @@ namespace FunctionDurable.LooseCup.Activities
 
             var result = JsonSerializer.Deserialize<PdfCommand>(pdfCommand);
 
-            log.LogInformation($"Mission PdfGenerator: {result.TradeId} has completed.");
+            log.LogWarning($"Mission PdfGenerator: {result.TradeId} has completed.");
 
             await client.RaiseEventAsync(result.OrchestrationId, "PdfTaskComplete", result.PdfPath);
 

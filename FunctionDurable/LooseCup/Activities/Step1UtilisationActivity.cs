@@ -11,12 +11,12 @@ namespace FunctionDurable.LooseCup.Activities
         [FunctionName("Utilisation")]
         public static async Task<decimal> Utilisation([ActivityTrigger] int id, ILogger log)
         {
-            log.LogInformation($"Caculate utilistion for Trade {id}.");
+            log.LogWarning($"Caculate utilistion for Trade {id} at local Activity.");
             var rng = new Random();
             var result = rng.NextDecimal();
             
             await Task.Delay(100);
-            log.LogInformation($"utilistion for Trade {id} was {result}.");
+            log.LogWarning($"utilistion for Trade {id} was {result}.");
 
             return result;
         }

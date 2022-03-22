@@ -15,7 +15,7 @@ namespace FunctionDurable.Activities
         [FunctionName("BuildOrder")]
         public static Order BuildOrder([ActivityTrigger] string name, ILogger log)
         {
-            log.LogInformation($"BuildOrder {name}.");
+            log.LogWarning($"BuildOrder {name}.");
             return new Order(name);
         }
     }

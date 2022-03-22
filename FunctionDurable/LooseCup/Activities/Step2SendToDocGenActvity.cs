@@ -13,7 +13,7 @@ namespace FunctionDurable.LooseCup.Activities
         [return: Queue("DocGenTaskQueue")]
         public static async Task<string> SendToDocGen([ActivityTrigger] DocGenCommand command, ILogger log)
         {
-            log.LogInformation($"Create Email for Trade {command.TradeId}.");
+            log.LogWarning($"Send email message to DocGen for Trade {command.TradeId}.");
 
             var message = JsonSerializer.Serialize(command);
 
@@ -29,7 +29,7 @@ namespace FunctionDurable.LooseCup.Activities
         {
             var result = JsonSerializer.Deserialize<DocGenCommand>(docGenCommand);
 
-            log.LogInformation($"Mission DocGen dispatch: {result.TradeId} has completed.");
+            log.LogWarning($"Mission DocGen dispatch: {result.TradeId} has completed.");
 
             await client.RaiseEventAsync(result.OrchestrationId, "DocGenTaskComplete");
         }

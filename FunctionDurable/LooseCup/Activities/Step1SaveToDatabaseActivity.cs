@@ -13,13 +13,13 @@ namespace FunctionDurable.LooseCup.Activities
         [FunctionName("SaveToDatabase")]
         public static async Task<Trade> SaveToDatabase([ActivityTrigger] string name, ILogger log)
         {
-            log.LogInformation($"Saving Trade {name}.");
+            log.LogWarning($"Saving Trade {name} at local Activity.");
 
             var _tradeRepository = new TradeRepository();
             var trade = _tradeRepository.CreateTrade(name);
 
             await Task.Delay(100);
-            log.LogInformation($"Trade {trade.Id} was created.");
+            log.LogWarning($"Trade {trade.Id} was created.");
 
             return trade;
         }
