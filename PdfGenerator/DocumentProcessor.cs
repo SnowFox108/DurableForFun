@@ -1,8 +1,11 @@
 using System;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 using PdfGenerator.Infrastructure;
 
 namespace PdfGenerator
@@ -12,13 +15,23 @@ namespace PdfGenerator
     {
         [FunctionName("DocumentProcessor")]
         [return: Queue("PdfTaskCompleteQueue")]
-        public static string Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer,
+        public async Task<string> Run([TimerTrigger("*/1 * * * *")]TimerInfo myTimer,
             //[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
             ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            var task = DataContext.Instance.PdfTaskEntities.FirstOrDefault(x => x.IsProcessed == false);
+            var condition = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
+
+            var query = new TableQuery<PdfTaskEntity>().Where(condition);
+
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var client = account.CreateCloudTableClient();
+
+            var table = client.GetTableReference("PdfTask");
+
+            var lst = await table.ExecuteQuerySegmentedAsync(query, null);
+            var task = lst.FirstOrDefault();
 
             if (task == null)
             {
@@ -40,16 +53,13 @@ namespace PdfGenerator
 
                 var message = JsonSerializer.Serialize(command);
 
-                return message;
-            }
-            // Execute the query and loop through the results
-            //foreach (PdfTaskEntity entity in entities)
-            //{
-            //    log.LogInformation(
-            //        $"{entity.TradeId}\t{entity.IsProcessed}");
-            //}
+                TableOperation updateOperation = TableOperation.Replace(task);
+                await table.ExecuteAsync(updateOperation);
 
-            //await Task.Delay(1000);
+                //return message;
+            }
+
+            return null;
         }
     }
 }

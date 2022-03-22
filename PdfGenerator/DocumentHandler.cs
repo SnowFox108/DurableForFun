@@ -1,7 +1,10 @@
+using System;
+using System.Configuration;
 using System.Text.Json;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using PdfGenerator.Infrastructure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace PdfGenerator
 {
@@ -17,21 +20,31 @@ namespace PdfGenerator
 
             log.LogInformation($"New task has been put in: Task {command.TradeId}");
 
-            DataContext.Instance.PdfTaskEntities.Add(new PdfTaskEntity
+            //DataContext.Instance.PdfTaskEntities.Add(new PdfTaskEntity
+            //{
+            //    TradeId = command.TradeId,
+            //    IsProcessed = false,
+            //    OrchestrationId = command.OrchestrationId
+            //});
+
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var client = account.CreateCloudTableClient();
+
+            var table = client.GetTableReference("PdfTask");
+
+            table.CreateIfNotExistsAsync();
+
+            var entity = new PdfTaskEntity
             {
+                PartitionKey = "PdfGenerator",
+                RowKey = Guid.NewGuid().ToString("N"),
                 TradeId = command.TradeId,
                 IsProcessed = false,
                 OrchestrationId = command.OrchestrationId
-            });
+            };
 
-            //return new PdfTaskEntity
-            //{
-            //    PartitionKey = "PdfGenerator",
-            //    RowKey = Guid.NewGuid().ToString("N"),
-            //    TradeId = command.TradeId,
-            //    IsProcessed= false,
-            //    OrchestrationId = command.OrchestrationId
-            //};
+            TableOperation insertOperation = TableOperation.Insert(entity);
+            table.ExecuteAsync(insertOperation);
 
         }
     }

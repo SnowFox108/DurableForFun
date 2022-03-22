@@ -2,7 +2,7 @@
 
 namespace PdfGenerator
 {
-    public class PdfTaskEntity // : TableEntity
+    public class PdfTaskEntity : TableEntity
     {
         public string OrchestrationId { get; set; }
         public int TradeId { get; set; }
