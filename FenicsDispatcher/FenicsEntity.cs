@@ -1,6 +1,8 @@
-﻿namespace FenicsDispatcher
+﻿using Microsoft.WindowsAzure.Storage.Table;
+
+namespace FenicsDispatcher
 {
-    public class FenicsEntity
+    public class FenicsTaskEntity : TableEntity
     {
         public string OrchestrationId { get; set; }
         public int TradeId { get; set; }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FenicsDispatcher.Infrastructure
+﻿namespace FenicsDispatcher.Infrastructure
 {
     public sealed class DataContext
     {
@@ -12,7 +6,6 @@ namespace FenicsDispatcher.Infrastructure
 
         public DataContext()
         {
-            fenicsEntities = new List<FenicsEntity>();
         }
 
         public static DataContext Instance
@@ -34,16 +27,7 @@ namespace FenicsDispatcher.Infrastructure
 
         #endregion
 
-        private readonly List<FenicsEntity> fenicsEntities;
         private int _id = 0;
-
-        public List<FenicsEntity> FenicsEntities
-        {
-            get
-            {
-                return fenicsEntities;
-            }
-        }
 
         public int NextId()
         {

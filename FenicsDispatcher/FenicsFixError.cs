@@ -5,14 +5,18 @@ using Microsoft.Extensions.Logging;
 using FenicsDispatcher.Infrastructure;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage;
+using System;
+using System.Threading.Tasks;
 
 namespace FenicsDispatcher
 {
-    public static class FenicsFixError
+    public class FenicsFixError
     {
         [FunctionName("FenicsFixError")]
         [return: Queue("FenicsTaskCompleteQueue")]
-        public static string Run(
+        public async Task<string> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
 
             ILogger log)
@@ -21,7 +25,18 @@ namespace FenicsDispatcher
 
             var tradeId = int.Parse(req.Query["TradeId"]);
 
-            var task = DataContext.Instance.FenicsEntities.FirstOrDefault(x => x.TradeId == tradeId);
+            var condition = TableQuery.GenerateFilterConditionForInt("TradeId", QueryComparisons.Equal, tradeId);
+
+            var query = new TableQuery<FenicsTaskEntity>().Where(condition);
+
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var client = account.CreateCloudTableClient();
+
+            var table = client.GetTableReference("FenicsTask");
+
+            var lst = await table.ExecuteQuerySegmentedAsync(query, null);
+            var task = lst.FirstOrDefault();
+
 
             if (task == null)
             {
@@ -34,14 +49,18 @@ namespace FenicsDispatcher
                 log.LogInformation($"Create Fenics for {task.TradeId}");
 
                 task.IsProcessed = true;
+                task.FenicsId = DataContext.Instance.NextId();
                 var command = new FenicsCommand()
                 {
                     TradeId = task.TradeId,
                     OrchestrationId = task.OrchestrationId,
-                    FenicsId = DataContext.Instance.NextId()
+                    FenicsId = task.FenicsId
                 };
 
                 var message = JsonSerializer.Serialize(command);
+
+                TableOperation updateOperation = TableOperation.Replace(task);
+                await table.ExecuteAsync(updateOperation);
 
                 return message;
             }

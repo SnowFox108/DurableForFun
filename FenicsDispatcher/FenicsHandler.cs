@@ -1,7 +1,9 @@
+using System;
 using System.Text.Json;
-using FenicsDispatcher.Infrastructure;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace FenicsDispatcher
 {
@@ -15,12 +17,25 @@ namespace FenicsDispatcher
 
             log.LogInformation($"New Fenics task has been put in: Task {command.TradeId}");
 
-            DataContext.Instance.FenicsEntities.Add(new FenicsEntity
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var client = account.CreateCloudTableClient();
+
+            var table = client.GetTableReference("FenicsTask");
+
+            table.CreateIfNotExistsAsync();
+
+            var entity = new FenicsTaskEntity
             {
+                PartitionKey = "FenicsDispatcher",
+                RowKey = Guid.NewGuid().ToString("N"),
                 TradeId = command.TradeId,
                 IsProcessed = false,
                 OrchestrationId = command.OrchestrationId
-            });
+            };
+
+            TableOperation insertOperation = TableOperation.Insert(entity);
+            table.ExecuteAsync(insertOperation);
+
         }
     }
 }

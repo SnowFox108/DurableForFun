@@ -49,6 +49,7 @@ namespace PdfGenerator
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("PdfTask");
+            await table.CreateIfNotExistsAsync();
 
             var lst = await table.ExecuteQuerySegmentedAsync(query, null);
             var task = lst.FirstOrDefault();
