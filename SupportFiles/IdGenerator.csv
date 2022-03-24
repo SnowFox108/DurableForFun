@@ -1,0 +1,3 @@
+PartitionKey,RowKey,Timestamp,CounterId,CounterId@type
+IdGenerator,FenicsGeneratorKey,2022-03-24T18:07:15.9510000Z,5001,Int32
+IdGenerator,TradeGeneratorKey,2022-03-24T18:05:44.5650000Z,2001,Int32

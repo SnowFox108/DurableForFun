@@ -66,7 +66,7 @@ namespace FenicsDispatcher
             {
                 log.LogInformation($"Create Fenics for {task.TradeId}");
 
-                if (task.TradeId > 1 && task.TradeId < 4)
+                if (task.TradeId % 3 == 0)
                 {
                     log.LogWarning($"Something is wrong, fix it manually at: http://localhost:7076/api/FenicsFixError?TradeId={task.TradeId}");
                     return null;
