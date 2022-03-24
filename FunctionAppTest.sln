@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FenicsDispatcher", "FenicsD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportFiles", "SupportFiles", "{2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}"
 	ProjectSection(SolutionItems) = preProject
+		SupportFiles\IdGenerator.csv = SupportFiles\IdGenerator.csv
 		SupportFiles\Workflow.png = SupportFiles\Workflow.png
 		SupportFiles\Workflow.pptx = SupportFiles\Workflow.pptx
 	EndProjectSection
