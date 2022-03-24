@@ -87,6 +87,8 @@ namespace FenicsDispatcher
                 TableOperation updateOperation = TableOperation.Replace(task);
                 await table.ExecuteAsync(updateOperation);
 
+                log.LogInformation($"Fenics Job done for {task.TradeId}, sending back Fenics Id {task.FenicsId}");
+
                 return message;
             }
         }

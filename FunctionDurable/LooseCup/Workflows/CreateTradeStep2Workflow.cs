@@ -18,7 +18,7 @@ namespace FunctionDurable.LooseCup.Workflows
         {
             var tradeProcess = context.GetInput<TradeProcess>();
 
-            log.LogWarning($"Starting the Step2GeneratePdf Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
+            log.LogWarning($"Starting the Step2GeneratePdf Activity for Trade {tradeProcess.TradeId}");
             var pdfCcommand = new PdfCommand()
             {
                 TradeId = tradeProcess.TradeId,
@@ -39,7 +39,7 @@ namespace FunctionDurable.LooseCup.Workflows
 
             if (!string.IsNullOrEmpty(tradeProcess.PdfPath))
             {
-                log.LogWarning($"Starting the Step2SendToDocGen Activity {context.InstanceId} for Trade {tradeProcess.TradeId}");
+                log.LogWarning($"Starting the Step2SendToDocGen Activity for Trade {tradeProcess.TradeId}");
                 var docGenCommand = new DocGenCommand()
                 {
                     TradeId = tradeProcess.TradeId,

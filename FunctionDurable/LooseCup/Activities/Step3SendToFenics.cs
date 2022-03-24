@@ -30,7 +30,7 @@ namespace FunctionDurable.LooseCup.Activities
         {
             var result = JsonSerializer.Deserialize<FenicsCommand>(fenicsCommand);
 
-            log.LogWarning($"Mission Fenics: {result.TradeId} has completed.");
+            log.LogWarning($"Mission Fenics: {result.TradeId} has completed. FenicsId: {result.FenicsId} has returned.");
 
             await client.RaiseEventAsync(result.OrchestrationId, "FenicsTaskComplete", result.FenicsId);
         }

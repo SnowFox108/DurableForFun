@@ -26,6 +26,7 @@ namespace FenicsDispatcher
 
             var tradeId = int.Parse(req.Query["TradeId"]);
 
+            // Combine Filters didn't work, use Linq instead.
             //var condition1 = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
             var condition = TableQuery.GenerateFilterConditionForInt("TradeId", QueryComparisons.Equal, tradeId);
 
@@ -74,6 +75,8 @@ namespace FenicsDispatcher
 
                 TableOperation updateOperation = TableOperation.Replace(task);
                 await table.ExecuteAsync(updateOperation);
+
+                log.LogInformation($"Fenics Job done for {task.TradeId}, sending back Fenics Id {task.FenicsId}");
 
                 return message;
             }

@@ -17,10 +17,10 @@ namespace FunctionDurable.LooseCup.Workflows
         {
             var tradeName = context.GetInput<string>();
 
-            log.LogWarning($"Starting the Step1SaveToDatabase Activity {context.InstanceId} for Trade {tradeName}");
+            log.LogWarning($"Starting the Step1SaveToDatabase Activity for Trade {tradeName}");
             var trade = await context.CallActivityAsync<Trade>(nameof(Step1SaveToDatabaseActivity.SaveToDatabase), tradeName);
 
-            log.LogWarning($"Starting the Step1Utilisation Activity {context.InstanceId} for Trade {tradeName}");
+            log.LogWarning($"Starting the Step1Utilisation Activity for Trade {tradeName}");
             trade.Utilisation = await context.CallActivityAsync<decimal>(nameof(Step1UtilisationActivity.Utilisation), trade.Id);
             
             return trade;

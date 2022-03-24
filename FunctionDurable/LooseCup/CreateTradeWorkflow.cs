@@ -48,7 +48,7 @@ namespace FunctionDurable.LooseCup
                 tradeProcess.FenicId = await context.WaitForExternalEvent<int>("FenicsTaskComplete", TimeSpan.FromSeconds(300));
                 tradeProcess.IsFenicCreated = true;
 
-                log.LogWarning($"All Trade Id: {tradeProcess.TradeId} has completed.");
+                log.LogWarning($"All tasks for Trade Id: {tradeProcess.TradeId} has completed.");
             }
             catch (TimeoutException)
             {
