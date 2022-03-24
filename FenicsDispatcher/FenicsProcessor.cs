@@ -73,7 +73,8 @@ namespace FenicsDispatcher
                 }
 
                 task.IsProcessed = true;
-                task.FenicsId = DataContext.Instance.NextId();
+                var dataContext = new DataContext();
+                task.FenicsId = await dataContext.NextId();
                 var command = new FenicsCommand()
                 {
                     TradeId = task.TradeId,

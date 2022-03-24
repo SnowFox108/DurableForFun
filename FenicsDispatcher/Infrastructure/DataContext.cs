@@ -1,38 +1,37 @@
-﻿namespace FenicsDispatcher.Infrastructure
-{
-    public sealed class DataContext
-    {
-        #region singleton
+﻿using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
+namespace FenicsDispatcher.Infrastructure
+{
+    public class DataContext
+    {
         public DataContext()
         {
         }
 
-        public static DataContext Instance
+        public async Task<int> NextId()
         {
-            get
-            {
-                return Nested.NestedInstance;
-            }
-        }
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var client = account.CreateCloudTableClient();
 
-        class Nested
-        {
-            static Nested()
-            {
-            }
+            var table = client.GetTableReference("IdGenerator");
 
-            internal static readonly DataContext NestedInstance = new DataContext();
-        }
+            await table.CreateIfNotExistsAsync();
 
-        #endregion
+            var condition = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, "FenicsGeneratorKey");
+            var query = new TableQuery<IdGeneratorEntity>().Where(condition);
+            var lst = await table.ExecuteQuerySegmentedAsync(query, null);
 
-        private int _id = 0;
+            var key = lst.FirstOrDefault();
+            key.CounterId++;
 
-        public int NextId()
-        {
-            _id++;
-            return _id;
+            TableOperation updateOperation = TableOperation.Replace(key);
+            await table.ExecuteAsync(updateOperation);
+
+            return key.CounterId;
         }
 
     }

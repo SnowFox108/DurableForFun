@@ -16,9 +16,8 @@ namespace FunctionDurable.LooseCup.Activities
             log.LogWarning($"Saving Trade {name} at local Activity.");
 
             var _tradeRepository = new TradeRepository();
-            var trade = _tradeRepository.CreateTrade(name);
+            var trade = await _tradeRepository.CreateTrade(name);
 
-            await Task.Delay(100);
             log.LogWarning($"Trade {trade.Id} was created.");
 
             return trade;
