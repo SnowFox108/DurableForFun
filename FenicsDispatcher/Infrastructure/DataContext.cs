@@ -19,7 +19,30 @@ namespace FenicsDispatcher.Infrastructure
 
             var table = client.GetTableReference("IdGenerator");
 
-            await table.CreateIfNotExistsAsync();
+            var isFirstTime = await table.CreateIfNotExistsAsync();
+
+            if (isFirstTime)
+            {
+                // Insert Data for Fist time only
+                var tradeKey = new IdGeneratorEntity
+                {
+                    PartitionKey = "IdGenerator",
+                    RowKey = "TradeGeneratorKey",
+                    CounterId = 2000
+                };
+
+                var fenicsKey = new IdGeneratorEntity
+                {
+                    PartitionKey = "IdGenerator",
+                    RowKey = "FenicsGeneratorKey",
+                    CounterId = 5000
+                };
+
+                TableOperation insertOperation = TableOperation.Insert(tradeKey);
+                await table.ExecuteAsync(insertOperation);
+                insertOperation = TableOperation.Insert(fenicsKey);
+                await table.ExecuteAsync(insertOperation);
+            }
 
             var condition = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, "FenicsGeneratorKey");
             var query = new TableQuery<IdGeneratorEntity>().Where(condition);
