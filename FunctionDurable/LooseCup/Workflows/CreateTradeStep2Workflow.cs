@@ -29,7 +29,7 @@ namespace FunctionDurable.LooseCup.Workflows
 
             try
             {
-                tradeProcess.PdfPath = await context.WaitForExternalEvent<string>("PdfTaskComplete", TimeSpan.FromSeconds(300));
+                tradeProcess.PdfPath = await context.WaitForExternalEvent<string>("PdfTaskComplete");
                 tradeProcess.IsPdfGenerated = true;
             }
             catch (TimeoutException)

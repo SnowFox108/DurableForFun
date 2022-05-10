@@ -34,7 +34,7 @@ namespace FenicsDispatcher
 
             var query = new TableQuery<FenicsTaskEntity>().Where(condition);
 
-            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("FenicsTask");

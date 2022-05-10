@@ -18,7 +18,7 @@ namespace FunctionDurable.Infrastructure
 
         public async Task<Trade> CreateTrade(string tradeName)
         {
-            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("IdGenerator");

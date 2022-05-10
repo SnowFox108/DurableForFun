@@ -45,7 +45,7 @@ namespace PdfGenerator
 
             var query = new TableQuery<PdfTaskEntity>().Where(condition);
 
-            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("PdfTask");

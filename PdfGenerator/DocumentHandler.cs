@@ -19,7 +19,7 @@ namespace PdfGenerator
 
             log.LogInformation($"New task has been put in: Task {command.TradeId}");
 
-            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("PdfTask");

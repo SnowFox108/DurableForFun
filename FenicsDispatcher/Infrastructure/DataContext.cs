@@ -14,7 +14,7 @@ namespace FenicsDispatcher.Infrastructure
 
         public async Task<int> NextId()
         {
-            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+            var account = CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             var client = account.CreateCloudTableClient();
 
             var table = client.GetTableReference("IdGenerator");
