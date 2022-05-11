@@ -28,6 +28,11 @@ namespace PdfGenerator
         {
             // Create a new MigraDoc document
             Document document = new Document();
+
+            // apply font and style
+            var style = document.Styles[StyleNames.Normal];
+            style.Font.Name = "Arial";
+
             document.Info.Title = "Hello World";
 
             // Add a section to the document

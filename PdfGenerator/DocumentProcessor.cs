@@ -84,7 +84,7 @@ namespace PdfGenerator
                 var message = JsonSerializer.Serialize(command);
 
                 TableOperation updateOperation = TableOperation.Replace(task);
-                //await table.ExecuteAsync(updateOperation);
+                await table.ExecuteAsync(updateOperation);
 
                 return message;
             }
@@ -142,7 +142,7 @@ namespace PdfGenerator
 
 
             var cloudStorageAccount =
-                CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
+                CloudStorageAccount.Parse(Environment.GetEnvironmentVariable("AzureWebJobsStorage", EnvironmentVariableTarget.Process));
             //create a block blob CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();  
             var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
             //create a container CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("appcontainer");
