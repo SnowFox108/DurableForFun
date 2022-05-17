@@ -49,7 +49,7 @@ namespace FunctionDurable.LooseCup.Workflows
 
                 try
                 {
-                    await context.WaitForExternalEvent<string>("DocGenTaskComplete", TimeSpan.FromSeconds(300));
+                    await context.WaitForExternalEvent<string>("DocGenTaskComplete");
                     tradeProcess.IsDocGenDispatched = true;
                 }
                 catch (TimeoutException)
