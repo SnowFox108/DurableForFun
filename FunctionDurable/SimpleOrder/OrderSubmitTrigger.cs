@@ -13,7 +13,7 @@ namespace FunctionDurable
     {
         [FunctionName(nameof(OrderSubmitStarter))]
         public static async Task<IActionResult> OrderSubmitStarter(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req,
         [DurableClient] IDurableOrchestrationClient starter,
         ILogger log)
         {

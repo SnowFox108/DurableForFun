@@ -8,5 +8,6 @@
     "LocalHttpPort": 7071,
     "CORS": "*",
     "CORSCredentials": false
-  }
+  },
+  "WEBSITE_HOSTNAME": "localhost:80"
 }
