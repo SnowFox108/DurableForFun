@@ -3,6 +3,12 @@
     "DocGenDispatcher": {
       "commandName": "Project",
       "commandLineArgs": "start --port 7074"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 34600,
+      "useSSL": false
     }
   }
 }

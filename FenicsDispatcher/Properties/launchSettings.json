@@ -3,6 +3,12 @@
     "FenicsDispatcher": {
       "commandName": "Project",
       "commandLineArgs": "start --port 7076"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 31199,
+      "useSSL": false
     }
   }
 }
