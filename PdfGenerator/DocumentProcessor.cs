@@ -66,8 +66,9 @@ namespace PdfGenerator
                 return null;
             }
             else
-            {
-               await SaveToBlob();
+            { 
+                // disable PdfSharp
+                //await SaveToBlob();
 
 
                 // other database update

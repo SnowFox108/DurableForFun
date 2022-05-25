@@ -6,8 +6,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["FunctionDurable.csproj", "FunctionDurable/"]
-RUN dotnet restore "FunctionDurable.csproj"
+COPY ["FunctionDurable/FunctionDurable.csproj", "FunctionDurable/"]
+RUN dotnet restore "FunctionDurable/FunctionDurable.csproj"
 COPY . .
 WORKDIR "/src/FunctionDurable"
 RUN dotnet build "FunctionDurable.csproj" -c Release -o /app/build
