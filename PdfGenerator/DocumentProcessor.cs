@@ -11,8 +11,7 @@ using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using MigraDoc.Rendering;
-using PdfSharp.Pdf;
+using MigraDocCore.Rendering;
 
 namespace PdfGenerator
 {
@@ -34,7 +33,7 @@ namespace PdfGenerator
         [FunctionName("DocumentBuilder")]
         [return: Queue("PdfTaskCompleteQueue")]
         public async Task<string> Builder(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
 
             ILogger log)
         {
@@ -66,9 +65,9 @@ namespace PdfGenerator
                 return null;
             }
             else
-            { 
+            {
                 // disable PdfSharp
-                //await SaveToBlob();
+                await SaveToBlob();
 
 
                 // other database update
@@ -110,8 +109,6 @@ namespace PdfGenerator
             // is a collection of small programs and each program renders the glyph of a character when executed.
             // Using a font in PDFsharp may lead to the embedding of one or more font programms, because each outline
             // (regular, bold, italic, bold+italic, ...) has its own fontprogram)
-            const PdfFontEmbedding embedding = PdfFontEmbedding.Always;
-
             // ========================================================================================
 
             // Create a renderer for the MigraDoc document.

@@ -6,8 +6,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["DocGenDispatcher.csproj", "DocGenDispatcher/"]
-RUN dotnet restore "DocGenDispatcher.csproj"
+COPY ["DocGenDispatcher/DocGenDispatcher.csproj", "DocGenDispatcher/"]
+RUN dotnet restore "DocGenDispatcher/DocGenDispatcher.csproj"
 COPY . .
 WORKDIR "/src/DocGenDispatcher"
 RUN dotnet build "DocGenDispatcher.csproj" -c Release -o /app/build

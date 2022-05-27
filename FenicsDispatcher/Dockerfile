@@ -6,8 +6,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["FenicsDispatcher.csproj", "FenicsDispatcher/"]
-RUN dotnet restore "FenicsDispatcher.csproj"
+COPY ["FenicsDispatcher/FenicsDispatcher.csproj", "FenicsDispatcher/"]
+RUN dotnet restore "FenicsDispatcher/FenicsDispatcher.csproj"
 COPY . .
 WORKDIR "/src/FenicsDispatcher"
 RUN dotnet build "FenicsDispatcher.csproj" -c Release -o /app/build

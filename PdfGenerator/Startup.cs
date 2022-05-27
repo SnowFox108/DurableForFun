@@ -1,7 +1,6 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using PdfGenerator;
-using PdfSharp.Fonts;
+using PdfSharpCore.Fonts;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace PdfGenerator

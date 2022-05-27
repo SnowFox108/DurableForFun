@@ -1,14 +1,13 @@
-﻿using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Tables;
-using MigraDoc.Rendering;
-using PdfSharp.Pdf;
+﻿using System;
+using MigraDocCore.DocumentObjectModel;
+using MigraDocCore.DocumentObjectModel.Tables;
 
 namespace PdfGenerator
 {
 
     public class FillerText
     {
-        public static string Text = @"Loboreet autpat, C./ Núñez de Balboa 35-A, 3rd floor B quis adigna conse dipit la consed exeril et utpatetuer autat, voloboreet, consequamet ilit nos aut in henit ullam, sim doloreratis dolobore tat, venim quissequat. Nisci tat laor ametumsan vulla feuisim ing eliquisi tatum autat, velenisit iustionsed tis dunt exerostrud dolore verae.";
+        public static string Text = $"Build on {DateTime.UtcNow} Loboreet autpat, C./ Núñez de Balboa 35-A, 3rd floor B quis adigna conse dipit la consed exeril et utpatetuer autat, voloboreet, consequamet ilit nos aut in henit ullam, sim doloreratis dolobore tat, venim quissequat. Nisci tat laor ametumsan vulla feuisim ing eliquisi tatum autat, velenisit iustionsed tis dunt exerostrud dolore verae.";
         public static string ShortText = @"Núñez de Balboa 35-A";
     }
 
@@ -43,15 +42,12 @@ namespace PdfGenerator
 
             paragraph.Format.Font.Color = Color.FromCmyk(100, 30, 20, 50);
 
-            var text =
-                @"Loboreet autpat, C./ Núñez de Balboa 35-A, 3rd floor B quis adigna conse dipit la consed exeril et utpatetuer autat, voloboreet, consequamet ilit nos aut in henit ullam, sim doloreratis dolobore tat, venim quissequat. Nisci tat laor ametumsan vulla feuisim ing eliquisi tatum autat, velenisit iustionsed tis dunt exerostrud dolore verae.";
-
             // Add some text to the paragraph
-            paragraph.AddText(text);
+            paragraph.AddText(FillerText.Text);
             //paragraph.AddFormattedText("Hello, World!", TextFormat.Bold);
 
             for (int i = 0; i < 15; i++)
-                AddParagraph(document, text);
+                AddParagraph(document, FillerText.Text);
 
             DemonstrateSimpleTable(document);
             return document;
@@ -97,6 +93,29 @@ namespace PdfGenerator
             cell.AddParagraph("2");
             cell = row.Cells[1];
             cell.AddParagraph(FillerText.Text);
+
+            row = table.AddRow();
+            cell = row.Cells[0];
+            cell.AddParagraph("3");
+            cell = row.Cells[1];
+            var childFrame = cell.AddTextFrame();
+
+            Table childTable = childFrame.AddTable();
+            childTable.Borders.Width = 0.25;
+
+            childTable.AddColumn(Unit.FromCentimeter(5));
+            childTable.AddColumn(Unit.FromCentimeter(5));
+
+            Row childRow = childTable.AddRow();
+            Cell childCell = childRow[0];
+            childCell.AddParagraph("This is nested Table");
+            childCell = childRow[1];
+            childCell.AddParagraph("This is cell in nested Table");
+
+            childRow = childTable.AddRow();
+            childCell = childRow[0];
+            childCell.AddParagraph("This is 2nd line in nested Table");
+
 
             table.SetEdge(0, 0, 2, 3, Edge.Box, BorderStyle.Single, 1.5, Colors.Black);
 

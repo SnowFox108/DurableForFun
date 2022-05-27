@@ -12,7 +12,7 @@ namespace FunctionDurable.LooseCup
     {
         [FunctionName(nameof(CreateTradeStarter))]
         public static async Task<IActionResult> CreateTradeStarter(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req,
         [DurableClient] IDurableOrchestrationClient starter,
         ILogger log)
         {
