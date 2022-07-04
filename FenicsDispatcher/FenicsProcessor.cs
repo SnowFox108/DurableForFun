@@ -31,7 +31,7 @@ namespace FenicsDispatcher
         [FunctionName("FenicsBuilder")]
         [return: Queue("FenicsTaskCompleteQueue")]
         public async Task<string> Builder(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
 
             ILogger log)
         {
@@ -66,11 +66,12 @@ namespace FenicsDispatcher
             {
                 log.LogInformation($"Create Fenics for {task.TradeId}");
 
-                if (task.TradeId % 3 == 0)
-                {
-                    log.LogWarning($"Something is wrong, fix it manually at: http://localhost:7076/api/FenicsFixError?TradeId={task.TradeId}");
-                    return null;
-                }
+                // enable this to simulate system error
+                //if (task.TradeId % 3 == 0)
+                //{
+                //    log.LogWarning($"Something is wrong, fix it manually at: http://localhost:7076/api/FenicsFixError?TradeId={task.TradeId}");
+                //    return null;
+                //}
 
                 task.IsProcessed = true;
                 var dataContext = new DataContext();

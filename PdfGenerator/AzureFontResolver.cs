@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using PdfSharp.Fonts;
+using PdfSharpCore.Fonts;
 
 namespace PdfGenerator
 {
@@ -41,6 +41,7 @@ namespace PdfGenerator
             return null;
         }
 
+        public string DefaultFontName => "Arial";
     }
 
     public static class FontHelper

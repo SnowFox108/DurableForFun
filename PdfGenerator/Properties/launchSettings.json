@@ -3,6 +3,12 @@
     "PdfGenerator": {
       "commandName": "Project",
       "commandLineArgs": "start --port 7072"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 34254,
+      "useSSL": false
     }
   }
 }
