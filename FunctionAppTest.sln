@@ -18,7 +18,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SupportFiles", "SupportFile
 		SupportFiles\Workflow.pptx = SupportFiles\Workflow.pptx
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfDockerTest", "PdfDockerTest\PdfDockerTest.csproj", "{600FD263-C274-4EE0-BC09-826F7B9B9010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfDockerTest", "PdfDockerTest\PdfDockerTest.csproj", "{600FD263-C274-4EE0-BC09-826F7B9B9010}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprWebTester", "DaprWebTester\DaprWebTester.csproj", "{3558787D-F9FC-4D40-B08A-CB101CAE48E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{35B1133A-0825-496B-96C0-321CD3E15D72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{26F51879-8AF6-4139-A3AD-31985E6FE607}"
+	ProjectSection(SolutionItems) = preProject
+		SupportFiles\dapr\components\pubsub.yaml = SupportFiles\dapr\components\pubsub.yaml
+		SupportFiles\dapr\components\statestore.yaml = SupportFiles\dapr\components\statestore.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,9 +56,17 @@ Global
 		{600FD263-C274-4EE0-BC09-826F7B9B9010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600FD263-C274-4EE0-BC09-826F7B9B9010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{600FD263-C274-4EE0-BC09-826F7B9B9010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3558787D-F9FC-4D40-B08A-CB101CAE48E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3558787D-F9FC-4D40-B08A-CB101CAE48E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3558787D-F9FC-4D40-B08A-CB101CAE48E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3558787D-F9FC-4D40-B08A-CB101CAE48E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35B1133A-0825-496B-96C0-321CD3E15D72} = {2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}
+		{26F51879-8AF6-4139-A3AD-31985E6FE607} = {35B1133A-0825-496B-96C0-321CD3E15D72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3985B854-5F86-447F-AF98-6974200897AE}
