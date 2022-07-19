@@ -18,22 +18,25 @@ public class DaprClientStateBasketService : IStateBasketService
         ILogger<DaprClientStateBasketService> logger)
     {
         _client = client;
+        _logger = logger;
+
+        var port = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
+        _logger.LogInformation($"Dapr port is {port}");
         _dapr_port = "3500"; // Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
         //_client = new DaprClientBuilder().Build();
-        _logger = logger;
     }
     public async Task AddToBasket(Fruit fruit)
     {
         _logger.LogInformation($"Add fruit id:{fruit.Id} name:{fruit.Name} to basket");
-        //await SaveStateSdk(fruit);
-        await SaveStateHttp(fruit);
+        await SaveStateSdk(fruit);
+        //await SaveStateHttp(fruit);
     }
 
     public async Task<Fruit> GetFruit(int id)
     {
         _logger.LogInformation($"Get fruit id:{id} from basket");
-        //return await GetStateSdk(id);
-        return await GetStateHttp(id);
+        return await GetStateSdk(id);
+        //return await GetStateHttp(id);
     }
 
     public Task RemoveFromBasket(Fruit fruit)
@@ -52,14 +55,19 @@ public class DaprClientStateBasketService : IStateBasketService
     private async Task<Fruit> GetStateHttp(int id)
     {
         var httpClient = new HttpClient();
-
-        var url = $"{baseUrl}{_dapr_port}/v1.0/state/{stateStoreName}/{id.ToString()}";
+        var key = $"fruit-{id}";
+        var url = $"{baseUrl}{_dapr_port}/v1.0/state/{stateStoreName}/{key}";
 
         var response = await httpClient.GetStringAsync(url);
-        var fruit = JsonSerializer.Deserialize<Fruit>(response);
 
-        return fruit;
+        return new Fruit()
+        {
+            Id = id,
+            Name = response
+        };
+
     }
+
     private async Task SaveStateSdk(Fruit fruit)
     {
         var key = $"fruit-{fruit.Id}";
@@ -75,7 +83,7 @@ public class DaprClientStateBasketService : IStateBasketService
 
         var fruitJson = JsonSerializer.Serialize(new[] {
             new {
-                key = fruit.Id,
+                key = $"fruit-{fruit.Id}",
                 value = fruit.Name
             }
         });
