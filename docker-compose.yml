@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  daprdockertester:
+    image: ${DOCKER_REGISTRY-}daprdockertester
+    build:
+      context: .
+      dockerfile: DaprDockerTester/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+    networks:
+      - hello-dapr
+
+  daprdockertester-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", 
+     "-app-id", "daprdockertester", 
+     "-app-port", "80",
+     #"-placement-host-address", "placement:50006",
+     #"-dapr-grpc-port", "50001",
+     "-components-path", "/components",
+     "-config", "/config/config.yaml"
+     ] 
+    volumes:
+        - "./SupportFiles/dapr/dc-components:/components" 
+        - "./SupportFiles/dapr/dc-config:/config" 
+    depends_on:
+        - daprdockertester
+    network_mode: "service:daprdockertester"
+  ############################
+  # Dapr placement service
+  ############################
+  #placement:
+  #  image: "daprio/dapr"
+  #  command: ["./placement", "-port", "50006"]
+  #  ports:
+  #    - "50006:50006"
+  #  networks:
+  #    - hello-dapr
+  ############################
+  # Redis state store
+  ############################
+  redis:
+    container_name: "redis_service"
+    image: "redis:alpine"
+    ports:
+      - "6379"
+    networks:
+      - hello-dapr
+  zipkin:
+    container_name: "zipkin_service"
+    image: openzipkin/zipkin # https://registry.hub.docker.com/r/openzipkin/zipkin
+    ports:
+      - 9412:9411
+    networks:
+      - hello-dapr
+networks:
+    hello-dapr:
