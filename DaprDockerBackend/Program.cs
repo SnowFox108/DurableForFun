@@ -1,15 +1,11 @@
-using DaprDockerTester.Services;
+using Dapr;
+using DaprDockerBackend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(); //.AddDapr();
-
-// Add Dapr
-builder.Services.AddDaprClient();
-builder.Services.AddScoped<IStateBasketService, DaprClientStateBasketService>();
-builder.Services.AddScoped<IOrderSubmitService, DaprOrderSubmitService>();
+builder.Services.AddControllers().AddDapr();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,8 +20,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseCloudEvents();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.MapPost("/orders", [Topic("servicebus-pubsub", "orders")] (Basket basket) =>
+//{
+//    Console.WriteLine($"Received a new order from {basket.Id}");
+
+//    return Results.Ok();
+//});
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapSubscribeHandler();
+    endpoints.MapControllers();
+});
 
 app.Run();

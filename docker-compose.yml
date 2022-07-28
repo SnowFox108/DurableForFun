@@ -12,12 +12,10 @@ services:
       - hello-dapr
 
   daprdockertester-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.0"
     command: [ "./daprd", 
      "-app-id", "daprdockertester", 
      "-app-port", "80",
-     #"-placement-host-address", "placement:50006",
-     #"-dapr-grpc-port", "50001",
      "-components-path", "/components",
      "-config", "/config/config.yaml"
      ] 
@@ -27,6 +25,32 @@ services:
     depends_on:
         - daprdockertester
     network_mode: "service:daprdockertester"
+
+  daprdockerbackend:
+    image: ${DOCKER_REGISTRY-}daprdockerbackend
+    build:
+      context: .
+      dockerfile: DaprDockerBackend/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+    networks:
+      - hello-dapr
+
+  daprdockerbackend-dapr:
+    image: "daprio/daprd:1.8.0"
+    command: [ "./daprd", 
+     "-app-id", "daprdockerbackend", 
+     "-app-port", "80",
+     "-components-path", "/components",
+     "-config", "/config/config.yaml"
+     ] 
+    volumes:
+        - "./SupportFiles/dapr/dc-components:/components" 
+        - "./SupportFiles/dapr/dc-config:/config" 
+    depends_on:
+        - daprdockerbackend
+    network_mode: "service:daprdockerbackend"
+
   ############################
   # Dapr placement service
   ############################
