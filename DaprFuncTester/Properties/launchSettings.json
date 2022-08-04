@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "DaprFuncTester": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7283"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 32897,
+      "useSSL": false
+    }
+  }
+}

@@ -43,7 +43,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dc-config", "dc-config", "{
 		SupportFiles\dapr\dc-config\config.yaml = SupportFiles\dapr\dc-config\config.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprDockerBackend", "DaprDockerBackend\DaprDockerBackend.csproj", "{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaprDockerBackend", "DaprDockerBackend\DaprDockerBackend.csproj", "{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprFuncTester", "DaprFuncTester\DaprFuncTester.csproj", "{BB2658F7-E40F-487A-AA63-DDD7A529D921}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,14 @@ Global
 		{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}.Release|x64.ActiveCfg = Release|Any CPU
 		{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}.Release|x64.Build.0 = Release|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB2658F7-E40F-487A-AA63-DDD7A529D921}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "FuncDockerTester": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7298"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 34115,
+      "useSSL": false
+    }
+  }
+}

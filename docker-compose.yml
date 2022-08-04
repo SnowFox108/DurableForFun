@@ -1,20 +1,95 @@
 version: '3.4'
 
 services:
-  daprdockertester:
-    image: ${DOCKER_REGISTRY-}daprdockertester
+  #daprdockertester:
+  #  image: ${DOCKER_REGISTRY-}daprdockertester
+  #  build:
+  #    context: .
+  #    dockerfile: DaprDockerTester/Dockerfile
+  #  environment:
+  #    - DAPR_HTTP_PORT=3500
+  #    - AzureWebJobsStorage
+  #  networks:
+  #    - hello-dapr
+
+  #daprdockertester-dapr:
+  #  image: "daprio/daprd:1.8.0"
+  #  command: [ "./daprd", 
+  #   "-app-id", "daprdockertester", 
+  #   "-app-port", "80",
+  #   "-components-path", "/components",
+  #   "-config", "/config/config.yaml"
+  #   ] 
+  #  volumes:
+  #      - "./SupportFiles/dapr/dc-components:/components" 
+  #      - "./SupportFiles/dapr/dc-config:/config" 
+  #  depends_on:
+  #      - daprdockertester
+  #  network_mode: "service:daprdockertester"
+
+  #daprdockerbackend:
+  #  image: ${DOCKER_REGISTRY-}daprdockerbackend
+  #  build:
+  #    context: .
+  #    dockerfile: DaprDockerBackend/Dockerfile
+  #  environment:
+  #    - DAPR_HTTP_PORT=3500
+  #  networks:
+  #    - hello-dapr
+
+  #daprdockerbackend-dapr:
+  #  image: "daprio/daprd:1.8.0"
+  #  command: [ "./daprd", 
+  #   "-app-id", "daprdockerbackend", 
+  #   "-app-port", "80",
+  #   "-components-path", "/components",
+  #   "-config", "/config/config.yaml"
+  #   ] 
+  #  volumes:
+  #      - "./SupportFiles/dapr/dc-components:/components" 
+  #      - "./SupportFiles/dapr/dc-config:/config" 
+  #  depends_on:
+  #      - daprdockerbackend
+  #  network_mode: "service:daprdockerbackend"
+
+  functiondurable:
+    image: ${DOCKER_REGISTRY-}functiondurable
     build:
       context: .
-      dockerfile: DaprDockerTester/Dockerfile
+      dockerfile: FunctionDurable/Dockerfile
     environment:
       - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
+      #- WEBSITE_HOSTNAME
     networks:
       - hello-dapr
 
-  daprdockertester-dapr:
+  pdfgenerator:
+    image: ${DOCKER_REGISTRY-}pdfgenerator
+    build:
+      context: .
+      dockerfile: PdfGenerator/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
+    networks:
+      - hello-dapr
+
+  docgendispatcher:
+    image: ${DOCKER_REGISTRY-}docgendispatcher
+    build:
+      context: .
+      dockerfile: DocGenDispatcher/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
+    networks:
+      - hello-dapr
+
+  docgendispatcher-dapr:
     image: "daprio/daprd:1.8.0"
     command: [ "./daprd", 
-     "-app-id", "daprdockertester", 
+     "-app-id", "docgendispatcher", 
      "-app-port", "80",
      "-components-path", "/components",
      "-config", "/config/config.yaml"
@@ -23,23 +98,35 @@ services:
         - "./SupportFiles/dapr/dc-components:/components" 
         - "./SupportFiles/dapr/dc-config:/config" 
     depends_on:
-        - daprdockertester
-    network_mode: "service:daprdockertester"
+        - docgendispatcher
+    network_mode: "service:docgendispatcher"
 
-  daprdockerbackend:
-    image: ${DOCKER_REGISTRY-}daprdockerbackend
+  fenicsdispatcher:
+    image: ${DOCKER_REGISTRY-}fenicsdispatcher
     build:
       context: .
-      dockerfile: DaprDockerBackend/Dockerfile
+      dockerfile: FenicsDispatcher/Dockerfile
     environment:
       - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
     networks:
       - hello-dapr
 
-  daprdockerbackend-dapr:
+  daprfunctester:
+    image: ${DOCKER_REGISTRY-}daprfunctester
+    build:
+      context: .
+      dockerfile: DaprFuncTester/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
+    networks:
+      - hello-dapr
+
+  daprfunctester-dapr:
     image: "daprio/daprd:1.8.0"
     command: [ "./daprd", 
-     "-app-id", "daprdockerbackend", 
+     "-app-id", "daprfunctester", 
      "-app-port", "80",
      "-components-path", "/components",
      "-config", "/config/config.yaml"
@@ -48,8 +135,9 @@ services:
         - "./SupportFiles/dapr/dc-components:/components" 
         - "./SupportFiles/dapr/dc-config:/config" 
     depends_on:
-        - daprdockerbackend
-    network_mode: "service:daprdockerbackend"
+        - daprfunctester
+    network_mode: "service:daprfunctester"
+
 
   ############################
   # Dapr placement service
@@ -76,6 +164,15 @@ services:
     image: openzipkin/zipkin # https://registry.hub.docker.com/r/openzipkin/zipkin
     ports:
       - 9412:9411
+    networks:
+      - hello-dapr
+  azurestorage.emulator:
+    image: "mcr.microsoft.com/azure-storage/azurite:latest"
+    container_name: "azurite_service"
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
     networks:
       - hello-dapr
 networks:

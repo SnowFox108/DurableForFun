@@ -18,7 +18,7 @@ namespace FenicsDispatcher
     {
         [FunctionName("FenicsProcessor")]
         [return: Queue("FenicsTaskCompleteQueue")]
-        public async Task<string> Run([TimerTrigger("*/1 * * * *")] TimerInfo myTimer,
+        public async Task<string> Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer,
             //[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
             ILogger log)
         {

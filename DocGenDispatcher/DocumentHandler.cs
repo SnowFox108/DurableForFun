@@ -11,7 +11,7 @@ namespace PdfGenerator
     {
         [FunctionName("DocumentHandler")]
         [return: Queue("DocGenTaskCompleteQueue")]
-        public static async Task<string> Run([QueueTrigger("DocGenTaskQueue")]string docGenCommand, 
+        public static async Task<string> Run([QueueTrigger("DocGenTaskQueue")] string docGenCommand,
             ILogger log)
         {
             var command = JsonSerializer.Deserialize<DocGenCommand>(docGenCommand);
