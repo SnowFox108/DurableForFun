@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace DaprFuncTester
 {
-    public static class SubBinding
+    public class SubPrinter
     {
-        [FunctionName("SubBinding")]
-        public static void Run(
-            [DaprTopicTrigger("redis-pubsub", Topic = "orders")] CloudEvent subEvent,
+        [FunctionName("SubPrinter")]
+        public void Run(
+            [DaprTopicTrigger("redis-pubsub", Topic = "printer")] CloudEvent subEvent,
             ILogger log)
         {
             log.LogInformation("C# function processed a PrintTopicMessage request from the Dapr Runtime.");

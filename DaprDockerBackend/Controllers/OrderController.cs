@@ -15,8 +15,8 @@ namespace DaprDockerBackend.Controllers
             _logger = logger;
         }
 
-        [HttpPost("", Name = "Order")]
-        [Topic("redis-pubsub", "orders")]
+        [HttpPost("", Name = "Printer")]
+        [Topic("servicebus-pubsub", "printer")]
         public async Task<IActionResult> Submit(Basket basket)
         {
             _logger.LogInformation($"Received a new order from {basket.Id}");

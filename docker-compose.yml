@@ -27,30 +27,30 @@ services:
   #      - daprdockertester
   #  network_mode: "service:daprdockertester"
 
-  #daprdockerbackend:
-  #  image: ${DOCKER_REGISTRY-}daprdockerbackend
-  #  build:
-  #    context: .
-  #    dockerfile: DaprDockerBackend/Dockerfile
-  #  environment:
-  #    - DAPR_HTTP_PORT=3500
-  #  networks:
-  #    - hello-dapr
+  daprdockerbackend:
+    image: ${DOCKER_REGISTRY-}daprdockerbackend
+    build:
+      context: .
+      dockerfile: DaprDockerBackend/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+    networks:
+      - hello-dapr
 
-  #daprdockerbackend-dapr:
-  #  image: "daprio/daprd:1.8.0"
-  #  command: [ "./daprd", 
-  #   "-app-id", "daprdockerbackend", 
-  #   "-app-port", "80",
-  #   "-components-path", "/components",
-  #   "-config", "/config/config.yaml"
-  #   ] 
-  #  volumes:
-  #      - "./SupportFiles/dapr/dc-components:/components" 
-  #      - "./SupportFiles/dapr/dc-config:/config" 
-  #  depends_on:
-  #      - daprdockerbackend
-  #  network_mode: "service:daprdockerbackend"
+  daprdockerbackend-dapr:
+    image: "daprio/daprd:1.8.0"
+    command: [ "./daprd", 
+     "-app-id", "daprdockerbackend", 
+     "-app-port", "3001",
+     "-components-path", "/components",
+     "-config", "/config/config.yaml"
+     ] 
+    volumes:
+        - "./SupportFiles/dapr/dc-components:/components" 
+        - "./SupportFiles/dapr/dc-config:/config" 
+    depends_on:
+        - daprdockerbackend
+    network_mode: "service:daprdockerbackend"
 
   functiondurable:
     image: ${DOCKER_REGISTRY-}functiondurable
@@ -60,7 +60,7 @@ services:
     environment:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
-      #- WEBSITE_HOSTNAME
+      - WEBSITE_HOSTNAME
     networks:
       - hello-dapr
 
@@ -90,7 +90,7 @@ services:
     image: "daprio/daprd:1.8.0"
     command: [ "./daprd", 
      "-app-id", "docgendispatcher", 
-     "-app-port", "80",
+     "-app-port", "3001",
      "-components-path", "/components",
      "-config", "/config/config.yaml"
      ] 
@@ -142,13 +142,13 @@ services:
   ############################
   # Dapr placement service
   ############################
-  #placement:
-  #  image: "daprio/dapr"
-  #  command: ["./placement", "-port", "50006"]
-  #  ports:
-  #    - "50006:50006"
-  #  networks:
-  #    - hello-dapr
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - hello-dapr
   ############################
   # Redis state store
   ############################
