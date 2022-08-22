@@ -1,57 +1,6 @@
 version: '3.4'
 
 services:
-  #daprdockertester:
-  #  image: ${DOCKER_REGISTRY-}daprdockertester
-  #  build:
-  #    context: .
-  #    dockerfile: DaprDockerTester/Dockerfile
-  #  environment:
-  #    - DAPR_HTTP_PORT=3500
-  #    - AzureWebJobsStorage
-  #  networks:
-  #    - hello-dapr
-
-  #daprdockertester-dapr:
-  #  image: "daprio/daprd:1.8.0"
-  #  command: [ "./daprd", 
-  #   "-app-id", "daprdockertester", 
-  #   "-app-port", "80",
-  #   "-components-path", "/components",
-  #   "-config", "/config/config.yaml"
-  #   ] 
-  #  volumes:
-  #      - "./SupportFiles/dapr/dc-components:/components" 
-  #      - "./SupportFiles/dapr/dc-config:/config" 
-  #  depends_on:
-  #      - daprdockertester
-  #  network_mode: "service:daprdockertester"
-
-  daprdockerbackend:
-    image: ${DOCKER_REGISTRY-}daprdockerbackend
-    build:
-      context: .
-      dockerfile: DaprDockerBackend/Dockerfile
-    environment:
-      - DAPR_HTTP_PORT=3500
-    networks:
-      - hello-dapr
-
-  daprdockerbackend-dapr:
-    image: "daprio/daprd:1.8.0"
-    command: [ "./daprd", 
-     "-app-id", "daprdockerbackend", 
-     "-app-port", "3001",
-     "-components-path", "/components",
-     "-config", "/config/config.yaml"
-     ] 
-    volumes:
-        - "./SupportFiles/dapr/dc-components:/components" 
-        - "./SupportFiles/dapr/dc-config:/config" 
-    depends_on:
-        - daprdockerbackend
-    network_mode: "service:daprdockerbackend"
-
   functiondurable:
     image: ${DOCKER_REGISTRY-}functiondurable
     build:
@@ -61,8 +10,25 @@ services:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
       - WEBSITE_HOSTNAME
+    ports:
+      - 7071:80
     networks:
       - hello-dapr
+
+  functiondurable-dapr:
+    image: "daprio/daprd:1.8.0"
+    command: [ "./daprd", 
+     "-app-id", "functiondurable", 
+     "-app-port", "3001",
+     "-components-path", "/components",
+     "-config", "/config/config.yaml"
+     ] 
+    volumes:
+        - "./SupportFiles/dapr/dc-components:/components" 
+        - "./SupportFiles/dapr/dc-config:/config" 
+    depends_on:
+        - functiondurable
+    network_mode: "service:functiondurable"
 
   pdfgenerator:
     image: ${DOCKER_REGISTRY-}pdfgenerator
@@ -72,8 +38,25 @@ services:
     environment:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
+    ports:
+      - 7072:80
     networks:
       - hello-dapr
+
+  pdfgenerator-dapr:
+    image: "daprio/daprd:1.8.0"
+    command: [ "./daprd", 
+     "-app-id", "pdfgenerator", 
+     "-app-port", "3001",
+     "-components-path", "/components",
+     "-config", "/config/config.yaml"
+     ] 
+    volumes:
+        - "./SupportFiles/dapr/dc-components:/components" 
+        - "./SupportFiles/dapr/dc-config:/config" 
+    depends_on:
+        - pdfgenerator
+    network_mode: "service:pdfgenerator"
 
   docgendispatcher:
     image: ${DOCKER_REGISTRY-}docgendispatcher
@@ -83,6 +66,8 @@ services:
     environment:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
+    ports:
+      - 7073:80
     networks:
       - hello-dapr
 
@@ -109,25 +94,16 @@ services:
     environment:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
+    ports:
+      - 7074:80
     networks:
       - hello-dapr
 
-  daprfunctester:
-    image: ${DOCKER_REGISTRY-}daprfunctester
-    build:
-      context: .
-      dockerfile: DaprFuncTester/Dockerfile
-    environment:
-      - DAPR_HTTP_PORT=3500
-      - AzureWebJobsStorage
-    networks:
-      - hello-dapr
-
-  daprfunctester-dapr:
+  fenicsdispatcher-dapr:
     image: "daprio/daprd:1.8.0"
     command: [ "./daprd", 
-     "-app-id", "daprfunctester", 
-     "-app-port", "80",
+     "-app-id", "fenicsdispatcher", 
+     "-app-port", "3001",
      "-components-path", "/components",
      "-config", "/config/config.yaml"
      ] 
@@ -135,8 +111,8 @@ services:
         - "./SupportFiles/dapr/dc-components:/components" 
         - "./SupportFiles/dapr/dc-config:/config" 
     depends_on:
-        - daprfunctester
-    network_mode: "service:daprfunctester"
+        - fenicsdispatcher
+    network_mode: "service:fenicsdispatcher"
 
 
   ############################

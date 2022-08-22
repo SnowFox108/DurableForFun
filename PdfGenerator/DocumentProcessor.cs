@@ -3,15 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Azure.Storage.Blobs;
+using Dapr.AzureFunctions.Extension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using MigraDocCore.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace PdfGenerator
 {
@@ -19,31 +19,42 @@ namespace PdfGenerator
     public class DocumentProcessor
     {
         [FunctionName("DocumentProcessor")]
-        [return: Queue("PdfTaskCompleteQueue")]
-        public async Task<string> Run([TimerTrigger("*/10 * * * * *")]TimerInfo myTimer,
-            //[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
+        //[return: Queue("PdfTaskCompleteQueue")]
+        public static void Run(
+            [TimerTrigger("*/10 * * * * *")]TimerInfo myTimer,
+//[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
+            [DaprPublish(PubSubName = "redis-pubsub", Topic = "PdfTaskComplete")] out DaprPubSubEvent pubSubEvent,
             ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            //log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            var result = await TaskProcessor(log);
-            return result;
+            var message = TaskProcessor(log).Result;
+
+            var token = JToken.Parse(message);
+            pubSubEvent = new DaprPubSubEvent(token);
+
+            //return result;
         }
 
         [FunctionName("DocumentBuilder")]
-        [return: Queue("PdfTaskCompleteQueue")]
-        public async Task<string> Builder(
+        //[return: Queue("PdfTaskCompleteQueue")]
+        public static void Builder(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-
+            [DaprPublish(PubSubName = "redis-pubsub", Topic = "PdfTaskComplete")] out DaprPubSubEvent pubSubEvent,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            //log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var result = await TaskProcessor(log);
-            return result;
+            var message = TaskProcessor(log).Result;
+
+            var token = JToken.Parse(message);
+            pubSubEvent = new DaprPubSubEvent(token);
+
+            //var result = await TaskProcessor(log);
+            //return result;
         }
 
-        private async Task<string> TaskProcessor(ILogger log)
+        private static async Task<string> TaskProcessor(ILogger log)
         {
             var condition = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
 
@@ -90,7 +101,7 @@ namespace PdfGenerator
             }
         }
 
-        private async Task SaveToBlob()
+        private static async Task SaveToBlob()
         {
             var pdfBuilder = new PdfBuilder();
             var document = pdfBuilder.BuildDocument();

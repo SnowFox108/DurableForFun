@@ -1,5 +1,7 @@
 using System;
 using System.Text.Json;
+using CloudNative.CloudEvents;
+using Dapr.AzureFunctions.Extension;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
@@ -11,9 +13,14 @@ namespace FenicsDispatcher
     public class FenicsHandler
     {
         [FunctionName("FenicsHandler")]
-        public void Run([QueueTrigger("FenicsTaskQueue")]string fenicsCommand, ILogger log)
+        public void Run(
+            //[QueueTrigger("FenicsTaskQueue")]string fenicsCommand, 
+            [DaprTopicTrigger("redis-pubsub", Topic = "FenicsTask")] CloudEvent subEvent,
+
+            ILogger log)
         {
-            var command = JsonSerializer.Deserialize<FenicsCommand>(fenicsCommand);
+            //var command = JsonSerializer.Deserialize<FenicsCommand>(fenicsCommand);
+            var command = JsonSerializer.Deserialize<FenicsCommand>(subEvent.Data.ToString());
 
             log.LogInformation($"New Fenics task has been put in: Task {command.TradeId}");
 

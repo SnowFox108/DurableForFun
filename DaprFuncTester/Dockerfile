@@ -1,6 +1,15 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/azure-functions/dotnet:4 AS base
+
+#RUN apt-get update
+#RUN apt-get -y install curl gnupg
+#RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+#RUN apt-get install -y nodejs
+#RUN npm i -g azure-functions-core-tools@4 --unsafe-perm true
+#RUN apt-get install -y unzip
+#RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /remote_debugger
+
 WORKDIR /home/site/wwwroot
 EXPOSE 80
 

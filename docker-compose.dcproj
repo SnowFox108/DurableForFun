@@ -10,10 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include=".env" />
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
-    <None Include="docker-compose.yml" />
+    <None Include="docker-compose.debug.yml" />
+    <None Include="docker-compose.dev.yml" />
+    <None Include="docker-compose.original.override.yml" />
+    <None Include="docker-compose.original.yml" />
     <None Include=".dockerignore" />
+    <None Include="docker-compose.yml" />
   </ItemGroup>
 </Project>

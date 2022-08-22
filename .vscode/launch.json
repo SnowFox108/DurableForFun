@@ -2,19 +2,59 @@
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "netCore": {
-        "debuggerPath": "/remote_debugger/vsdbg"
-    },    
-    "configurations": [        
-    {
-        "name": "Docker .NET Core Attach (Preview)",
-        "type": "docker",
-        "request": "attach",
-        "platform": "netCore",
-        "sourceFileMap": {
-            "/src": "${workspaceFolder}"
-        }
-    }
+    "version": "0.2.0", 
+    "configurations": [
+        {
+            "name": ".NET Core SSH Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "ssh",
+                "pipeArgs": [ "-T", "root@localhost" ],
+                "debuggerPath": "/remote_debugger/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": true
+            },
+            "sourceFileMap": {
+                "/home/site/wwwroot": "${workspaceRoot}"
+            }
+        },        
+        {
+            "name": ".NET Core Docker Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickRemoteProcess}",
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "daprfunctester"
+                ],
+                "debuggerPath": "/remote_debugger/vsdbg",
+                "pipeCwd": "${workspaceRoot}",
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                "/home/site/wwwroot": "${workspaceFolder}/DaprFuncTester"
+            }
+        },
+        {
+            "name": "Docker .NET Core Attach (Preview)",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "netCore": {
+                "debuggerPath": "/remote_debugger/vsdbg",
+                //"appProject": "${workspaceFolder}/DaprFuncTester/DaprFuncTester.csproj",
+                //"enableDebugging": true
+            },
+            "sourceFileMap": {
+                "/home/site/wwwroot": "${workspaceFolder}/DaprFuncTester"
+            },            
+            "processName": "Microsoft.Azure.WebJobs.Script.WebHost"
+            //"processId":"${command:pickRemoteProcess}"
+        },
     ],
 }

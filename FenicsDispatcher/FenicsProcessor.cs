@@ -9,6 +9,8 @@ using System;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Dapr.AzureFunctions.Extension;
+using Newtonsoft.Json.Linq;
 
 namespace FenicsDispatcher
 {
@@ -17,31 +19,38 @@ namespace FenicsDispatcher
     public class FenicsProcessor
     {
         [FunctionName("FenicsProcessor")]
-        [return: Queue("FenicsTaskCompleteQueue")]
-        public async Task<string> Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer,
+        //[return: Queue("FenicsTaskCompleteQueue")]
+        public static void Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer,
             //[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
+            [DaprPublish(PubSubName = "redis-pubsub", Topic = "FenicsTaskComplete")] out DaprPubSubEvent pubSubEvent,
             ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            var result = await TaskProcessor(log);
-            return result;
+            var result = TaskProcessor(log).Result;
+            var token = JToken.Parse(result);
+            pubSubEvent = new DaprPubSubEvent(token);
+
+            //return result;
         }
 
         [FunctionName("FenicsBuilder")]
-        [return: Queue("FenicsTaskCompleteQueue")]
-        public async Task<string> Builder(
+        //[return: Queue("FenicsTaskCompleteQueue")]
+        public static void Builder(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-
+            [DaprPublish(PubSubName = "redis-pubsub", Topic = "FenicsTaskComplete")] out DaprPubSubEvent pubSubEvent,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var result = await TaskProcessor(log);
-            return result;
+            var result = TaskProcessor(log).Result;
+            var token = JToken.Parse(result);
+            pubSubEvent = new DaprPubSubEvent(token);
+            //var result = await TaskProcessor(log);
+            //return result;
         }
 
-        private async Task<string> TaskProcessor(ILogger log)
+        private static async Task<string> TaskProcessor(ILogger log)
         {
             var condition = TableQuery.GenerateFilterConditionForBool("IsProcessed", QueryComparisons.Equal, false);
 

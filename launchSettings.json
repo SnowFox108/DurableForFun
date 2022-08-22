@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "azurestorage.emulator": "StartWithoutDebugging",
+        "docgendispatcher-dapr": "StartWithoutDebugging",
+        "docgendispatcher": "StartWithoutDebugging",
+        "placement": "StartWithoutDebugging",
+        "redis": "StartWithoutDebugging",
+        "zipkin": "StartWithoutDebugging",
+        "fenicsdispatcher": "StartWithoutDebugging",
+        "fenicsdispatcher-dapr": "StartWithoutDebugging",
+        "functiondurable": "StartWithoutDebugging",
+        "functiondurable-dapr": "StartWithoutDebugging",
+        "pdfgenerator": "StartWithoutDebugging",
+        "pdfgenerator-dapr": "StartWithoutDebugging"
+      }
+    }
+  }
+}
