@@ -4,9 +4,13 @@ using System.Threading.Tasks;
 using CloudNative.CloudEvents;
 using Dapr.AzureFunctions.Extension;
 using DocGenDispatcher;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using PdfGenerator.Infrastructure;
 
 namespace PdfGenerator
 {
@@ -33,6 +37,24 @@ namespace PdfGenerator
             pubSubEvent = new DaprPubSubEvent(token);
 
             //return message;
+
+        }
+
+        [FunctionName("TestDatabaseRead")]
+        public async Task<IActionResult> WebRun(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+
+            log.LogInformation($"Http based call for TestDatabaseRead");
+
+            var processor = new DatabaseProcessor();
+
+            await processor.ProcessTask(log);
+
+            log.LogInformation($"Http based call for TestDatabaseRead is completed.");
+
+            return new OkObjectResult($"TestDatabaseRead with Ok Result");
 
         }
     }
