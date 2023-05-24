@@ -45,7 +45,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dc-config", "dc-config", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaprDockerBackend", "DaprDockerBackend\DaprDockerBackend.csproj", "{2EF56312-503B-4BAB-A78A-4AB5AA5B778B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaprFuncTester", "DaprFuncTester\DaprFuncTester.csproj", "{BB2658F7-E40F-487A-AA63-DDD7A529D921}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaprFuncTester", "DaprFuncTester\DaprFuncTester.csproj", "{BB2658F7-E40F-487A-AA63-DDD7A529D921}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "krb", "krb", "{1FD22523-1BE9-4E8D-8092-063D19FDDAB8}"
+	ProjectSection(SolutionItems) = preProject
+		SupportFiles\krb\krb5.conf = SupportFiles\krb\krb5.conf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -136,6 +141,7 @@ Global
 		{010E6DAA-7736-4C01-A232-394BE0ADE14F} = {D8BFD32E-BA7F-4390-B1F0-53F21AC22604}
 		{EF70A944-6E3D-4D85-A668-9D5A21E026CB} = {D8BFD32E-BA7F-4390-B1F0-53F21AC22604}
 		{7D32CD08-B938-455F-AEF0-7B4ECB56F7C8} = {D8BFD32E-BA7F-4390-B1F0-53F21AC22604}
+		{1FD22523-1BE9-4E8D-8092-063D19FDDAB8} = {2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3985B854-5F86-447F-AF98-6974200897AE}
