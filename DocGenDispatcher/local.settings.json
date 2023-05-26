@@ -5,6 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   },
   "ConnectionStrings": {
-    "Options": "Data Source=C3015;Initial Catalog=Options;Integrated Security=True;Timeout=180;MultipleActiveResultSets=true;Trusted_Connection=true;"
+    "Options": "Data Source=C3015;Initial Catalog=Options;Integrated Security=True;Timeout=180;MultipleActiveResultSets=true;Trusted_Connection=true;",
+    "Docker": "Data Source=C3015;Initial Catalog=Options;Persist Security Info=True;User ID=webtester;Password=Password123!"
   }
 }
