@@ -20,7 +20,8 @@ namespace FenicsDispatcher
     {
         [FunctionName("FenicsProcessor")]
         //[return: Queue("FenicsTaskCompleteQueue")]
-        public static void Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer,
+        public static void Run(
+            //[TimerTrigger("*/10 * * * * *")] TimerInfo myTimer,
             //[Table("PdfTask", "", Filter = "IsProcessed eq 'false'")] IEnumerable<PdfTaskEntity>,
             [DaprPublish(PubSubName = "redis-pubsub", Topic = "FenicsTaskComplete")] out DaprPubSubEvent pubSubEvent,
             ILogger log)

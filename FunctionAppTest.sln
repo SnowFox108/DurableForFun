@@ -49,7 +49,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaprFuncTester", "DaprFuncT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "krb", "krb", "{1FD22523-1BE9-4E8D-8092-063D19FDDAB8}"
 	ProjectSection(SolutionItems) = preProject
+		SupportFiles\krb\cntlm.conf = SupportFiles\krb\cntlm.conf
+		SupportFiles\krb\Dockerfile = SupportFiles\krb\Dockerfile
 		SupportFiles\krb\krb5.conf = SupportFiles\krb\krb5.conf
+		SupportFiles\krb\rekinit.sh = SupportFiles\krb\rekinit.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{C4555E4C-12A3-42A6-871A-641E62074C3F}"
+	ProjectSection(SolutionItems) = preProject
+		SupportFiles\sql\Dockerfile = SupportFiles\sql\Dockerfile
+		SupportFiles\sql\init.sh = SupportFiles\sql\init.sh
 	EndProjectSection
 EndProject
 Global
@@ -142,6 +151,7 @@ Global
 		{EF70A944-6E3D-4D85-A668-9D5A21E026CB} = {D8BFD32E-BA7F-4390-B1F0-53F21AC22604}
 		{7D32CD08-B938-455F-AEF0-7B4ECB56F7C8} = {D8BFD32E-BA7F-4390-B1F0-53F21AC22604}
 		{1FD22523-1BE9-4E8D-8092-063D19FDDAB8} = {2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}
+		{C4555E4C-12A3-42A6-871A-641E62074C3F} = {2A694F3B-46B9-49ED-A9B4-F0F7E422CED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3985B854-5F86-447F-AF98-6974200897AE}

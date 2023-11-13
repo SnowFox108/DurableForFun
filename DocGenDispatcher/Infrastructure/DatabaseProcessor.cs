@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
+
 namespace PdfGenerator.Infrastructure;
 
 public class DatabaseProcessor
@@ -23,5 +24,20 @@ public class DatabaseProcessor
             log.LogInformation($"Get Task Id: {result.Id}");
         }
     }
+
+    //public String getToken(string userName)
+    //{
+    //    AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.WindowsPrincipal);
+    //    var domain = Domain.GetCurrentDomain().ToString();
+
+    //    using (var domainContext = new PrincipalContext(ContextType.Domain, domain))
+    //    {
+    //        string spn = UserPrincipal.FindByIdentity(domainContext, IdentityType.SamAccountName, serviceName).UserPrincipalName;
+    //        KerberosSecurityTokenProvider tokenProvider = new KerberosSecurityTokenProvider(spn, System.Security.Principal.TokenImpersonationLevel.Impersonation, CredentialCache.DefaultNetworkCredentials);
+    //        KerberosRequestorSecurityToken securityToken = tokenProvider.GetToken(TimeSpan.FromMinutes(1)) as KerberosRequestorSecurityToken;
+    //        string serviceToken = Convert.ToBase64String(securityToken.GetRequest());
+    //    }
+
+    //}
 
 }

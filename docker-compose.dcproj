@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include=".env" />
+    <None Include="docker-compose.kerberos.yml" />
     <None Include="docker-compose.debug.yml" />
     <None Include="docker-compose.dev.yml" />
     <None Include="docker-compose.original.override.yml" />

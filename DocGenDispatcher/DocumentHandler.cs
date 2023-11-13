@@ -42,7 +42,7 @@ namespace PdfGenerator
 
         [FunctionName("TestDatabaseRead")]
         public async Task<IActionResult> WebRun(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
 

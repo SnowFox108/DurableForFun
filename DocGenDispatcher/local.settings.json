@@ -5,7 +5,9 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   },
   "ConnectionStrings": {
-    "Options": "Data Source=C3015;Initial Catalog=Options;Integrated Security=True;Timeout=180;MultipleActiveResultSets=true;Trusted_Connection=true;",
-    "Docker": "Data Source=C3015;Initial Catalog=Options;Persist Security Info=True;User ID=webtester;Password=Password123!"
+    "Options": "Data Source=C3015;Initial Catalog=Options;Integrated Security=True;MultipleActiveResultSets=true;",
+    "DevDocker": "Data Source=dev-sql.qamoneycorp.local;Initial Catalog=Options;Integrated Security=True;Timeout=180;MultipleActiveResultSets=true;Trusted_Connection=true;",
+    "Docker": "Data Source=C3015;Initial Catalog=Options;Persist Security Info=True;User ID=webtester;Password=Password123!",
+    "LocalDocker": "Server=tcp:C3015,1433;Initial Catalog=Options;Integrated Security=True;"
   }
 }

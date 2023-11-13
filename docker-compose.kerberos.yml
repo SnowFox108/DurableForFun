@@ -1,0 +1,86 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  kerberos-sidecar:
+    image: kerberos-sidecar
+    hostname: kerberos-sidecar
+    build:
+      context: ./SupportFiles/krb
+      dockerfile: Dockerfile
+    environment:
+      - SECRETS=/krb
+      - KEYTAB=zhangm.keytab
+      - PRINCIPAL=ZhangM
+      - VOLUME=/kerberos-sidecar
+      - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
+      - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc
+      - REKINIT_PERIOD=3600
+      - TRACE_OUT=/dev/stdout
+    volumes:
+      - sidecar-volume:/kerberos-sidecar:rwx
+    #secrets:
+    #  - source: client-keytab
+    #    target: ./SupportFiles/krb/zhangm.keytab
+
+  docgendispatcher:
+    image: ${DOCKER_REGISTRY-}docgendispatcher
+    build:
+      context: .
+      dockerfile: DocGenDispatcher/Dockerfile
+    environment:
+      - DAPR_HTTP_PORT=3500
+      - AzureWebJobsStorage
+      - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
+      - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc
+      - REKINIT_PERIOD=3600 
+    ports:
+      - 7073:80
+    volumes:
+      - sidecar-volume:/kerberos-sidecar:ro 
+    #networks:
+    #  - hello-dapr
+
+  #docgendispatcher-dapr:
+  #  image: "daprio/daprd:1.8.0"
+  #  command: [ "./daprd", 
+  #   "-app-id", "docgendispatcher", 
+  #   "-app-port", "3001",
+  #   "-components-path", "/components",
+  #   "-config", "/config/config.yaml"
+  #   ] 
+  #  volumes:
+  #      - "./SupportFiles/dapr/dc-components:/components" 
+  #      - "./SupportFiles/dapr/dc-config:/config" 
+  #  depends_on:
+  #      - docgendispatcher
+  #  network_mode: "service:docgendispatcher"
+
+  #sql-tool:
+  #  image: sql-tool
+  #  hostname: sql-tool
+  #  build:
+  #    context: ./SupportFiles/sql
+  #    dockerfile: Dockerfile
+  #  environment:
+  #    - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
+  #    - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc
+  #    - REKINIT_PERIOD=3600 
+  #  volumes:
+  #    - sidecar-volume:/kerberos-sidecar:ro
+
+volumes:
+  sidecar-volume:
+    external: true
+    name: kerberos-sidecar
+
+#secrets:
+#  client-keytab:
+#    external: true
+#    name: zhangm.keytab
+    
+#    networks:
+#      - hello-dapr
+#networks:
+#    hello-dapr:
