@@ -72,7 +72,6 @@ services:
 
 volumes:
   sidecar-volume:
-    external: true
     name: kerberos-sidecar
 
 #secrets:

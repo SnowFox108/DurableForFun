@@ -2,6 +2,9 @@
 
 FROM mcr.microsoft.com/azure-functions/dotnet:4 AS base
 WORKDIR /home/site/wwwroot
+
+RUN apt-get update && apt-get install krb5-user libkrb5-dev -y
+
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build

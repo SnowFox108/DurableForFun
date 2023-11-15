@@ -2,7 +2,8 @@
 
 FROM mcr.microsoft.com/azure-functions/dotnet:4 AS base
 WORKDIR /home/site/wwwroot
-RUN apt-get update -qq && apt-get -y install libgdiplus libc6-dev
+#RUN apt-get update && apt-get install krb5-user libkrb5-dev -y
+RUN apt-get update -qq && apt-get -y install krb5-user libkrb5-dev -y libgdiplus libc6-dev
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
