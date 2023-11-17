@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Data.SqlClient;
 
 namespace PdfGenerator.Infrastructure;
 
 public class ConnectionFactory : IConnectionFactory
 {
-    public SqlConnection OpenOptionConnection()
+    public string ConnectionString { get; private set; }
+    public SqlConnection OpenOptionConnection(ILogger log)
     {
-        var connection = new SqlConnection(Environment.GetEnvironmentVariable("ConnectionStrings:Options"));
+        ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings_Options");
+
+        log.LogInformation($"Connecting to Database: {ConnectionString}");
+
+        var connection = new SqlConnection(ConnectionString);
         connection.Open();
         return connection;
     }

@@ -35,6 +35,8 @@ services:
       - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
       - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc
       - REKINIT_PERIOD=3600 
+    env_file:
+      - ./kerberos.env
     ports:
       - 7073:80
     volumes:

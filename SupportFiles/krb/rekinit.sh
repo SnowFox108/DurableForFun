@@ -2,9 +2,12 @@
 
 echo "Kerberos sidecar started at $(date)"
 
+echo "Publishing Kerberos to $VOLUME"
 cp /krb/krb5.conf "$VOLUME"
 
-while true; do
+while true;
+
+do
     echo "Refreshing $PRINCIPAL with $SECRETS/$KEYTAB Kerberos ticket at $(date)..."
     KRB5_TRACE=$TRACE_OUT kinit "$PRINCIPAL" -k -t "$SECRETS/$KEYTAB"
 
@@ -18,4 +21,5 @@ while true; do
     fi
 
     sleep "$REKINIT_PERIOD"
+
 done

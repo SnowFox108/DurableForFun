@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace PdfGenerator
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-
+            //Environment.SetEnvironmentVariable("DATABASE_STRING", "C3015;Initial Catalog=Options;Integrated Security=True;MultipleActiveResultSets=true;");
             log.LogInformation($"Http based call for TestDatabaseRead");
 
             var processor = new DatabaseProcessor();

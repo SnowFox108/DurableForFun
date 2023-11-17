@@ -1,9 +1,11 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
 
 namespace PdfGenerator.Infrastructure;
 
 public interface IConnectionFactory
 {
-    SqlConnection OpenOptionConnection();
+    string ConnectionString { get; }
+    SqlConnection OpenOptionConnection(ILogger log);
 
 }

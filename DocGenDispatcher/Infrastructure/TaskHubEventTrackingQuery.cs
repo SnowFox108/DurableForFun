@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,12 +20,13 @@ public class TaskHubEventTrackingQuery
         _connectionFactory = connectionFactory;
     }
 
-    public async Task<IEnumerable<TaskHubPdfXpertTracking>> GetTaskByOrchestrationId(string orchestrationId)
+    public async Task<IEnumerable<TaskHubPdfXpertTracking>> GetTaskByOrchestrationId(ILogger log, string orchestrationId)
     {
+
         const string sql = @"SELECT * FROM [TaskHub].[PdfXpertTrackings]
                     WHERE OrchestrationId = @OrchestrationId AND EventStatus IN @EventStatus";
 
-        await using var connection = _connectionFactory.OpenOptionConnection();
+        await using var connection = _connectionFactory.OpenOptionConnection(log);
         return await connection.QueryAsync<TaskHubPdfXpertTracking>(sql, new
         {
             OrchestrationId = orchestrationId,

@@ -17,7 +17,7 @@ public class DatabaseProcessor
     public async Task ProcessTask(ILogger log)
     {
         var id = "e5034b0a-4f94-435e-bbea-633c3af2d72d";
-        var results = await _eventTrackingQuery.GetTaskByOrchestrationId(id);
+        var results = await _eventTrackingQuery.GetTaskByOrchestrationId(log, id);
 
         foreach (var result in results)
         {

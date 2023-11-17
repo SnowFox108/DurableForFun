@@ -76,6 +76,8 @@ services:
       - AzureWebJobsStorage
       - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
       - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc 
+    env_file:
+      - ./kerberos.env      
     ports:
       - 7073:80
     volumes:
