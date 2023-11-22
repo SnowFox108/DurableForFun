@@ -21,7 +21,7 @@ public class DatabaseProcessor
 
         foreach (var result in results)
         {
-            log.LogInformation($"Get Task Id: {result.Id}");
+            log.LogInformation($"Get Task Id: {result.Id} and EventData = {result.EventData}");
         }
     }
 

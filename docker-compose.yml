@@ -75,13 +75,13 @@ services:
       - DAPR_HTTP_PORT=3500
       - AzureWebJobsStorage
       - KRB5_CONFIG=/kerberos-sidecar/krb5.conf
-      - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc 
-    env_file:
-      - ./kerberos.env      
+      - KRB5CCNAME=FILE:/kerberos-sidecar/krb5cc      
     ports:
       - 7073:80
     volumes:
       - sidecar-volume:/kerberos-sidecar:ro  
+    extra_hosts:
+      - "C3015:10.70.103.146"
     networks:
       - hello-dapr
 

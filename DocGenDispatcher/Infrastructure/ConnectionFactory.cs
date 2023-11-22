@@ -9,7 +9,7 @@ public class ConnectionFactory : IConnectionFactory
     public string ConnectionString { get; private set; }
     public SqlConnection OpenOptionConnection(ILogger log)
     {
-        ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings_Options");
+        ConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings:Options");
 
         log.LogInformation($"Connecting to Database: {ConnectionString}");
 

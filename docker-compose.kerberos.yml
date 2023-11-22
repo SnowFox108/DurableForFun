@@ -41,6 +41,8 @@ services:
       - 7073:80
     volumes:
       - sidecar-volume:/kerberos-sidecar:ro 
+    extra_hosts:
+      - C3015:10.70.103.146
     #networks:
     #  - hello-dapr
 
